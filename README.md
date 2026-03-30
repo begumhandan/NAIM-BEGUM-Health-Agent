@@ -32,7 +32,7 @@ NAIM Challenge kuralları çerçevesinde her geliştirme aşaması belirli bir "
 | :--- | :---: | :--- | :---: |
 | v1.0 (MVP) | 15kg | Temel arayüz ve Serper.dev API entegrasyonu. | ✅ |
 | v1.1 | 15kg | Dinamik bölüm yönlendirmesi ve yükleme durumu. | ✅ |
-| v1.2 | 15kg | İnteraktif Randevu Kartı ve butonlu onay sistemi. | ✅ |
+| v1.2 | 15kg | İnteraktif Randevu Kartı ve onay sistemi. | ✅ |
 | v2.0 | 50kg | Tam kapsamlı yerel TFLite model entegrasyonu ve çevrimdışı analiz. | ⏳ Planlandı |
 
 ---
@@ -49,9 +49,12 @@ Uygulama, **veri odaklı (data-driven) UI** prensibiyle çalışır. Mesajlaşma
 
 ---
 
-## 📸 Ekran Görüntüsü
-*Mobil görünüm örneği (v1.1):*
-![App Preview](./assets/mobile_preview.png)
+## 📸 Ekran Görüntüleri
+*Mobil görünüm örneği (v1.1) ve Randevu Onay Sistemi (v1.2):*
+
+| Ana Ekran | Randevu Onay Testi |
+| :---: | :---: |
+| ![App Preview](./assets/mobile_preview.png) | ![Appointment Test](./assets/appointment_preview.png) |
 
 ---
 

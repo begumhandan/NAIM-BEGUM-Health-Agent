@@ -103,16 +103,16 @@ export default function App() {
           <View style={[styles.bubble, styles.appointmentCard]}>
             <Text style={styles.cardTitle}>{item.department} Bölümü Randevu</Text>
             <Text style={styles.cardSubtitle}>Uygun Uzmanlar ve Saatler:</Text>
-            
+
             {item.doctors.map((doc, dIdx) => (
               <View key={dIdx} style={styles.doctorSection}>
                 <Text style={styles.doctorName}>{doc}</Text>
                 <View style={styles.slotGrid}>
                   {item.slots.map((slot, sIdx) => (
-                    <TouchableOpacity 
-                      key={sIdx} 
+                    <TouchableOpacity
+                      key={sIdx}
                       style={[
-                        styles.slotBtn, 
+                        styles.slotBtn,
                         selection?.doctor === doc && selection?.slot === slot ? styles.slotBtnSelected : null
                       ]}
                       onPress={() => handleSelectSlot(item.id, doc, slot)}
@@ -181,7 +181,7 @@ export default function App() {
         body: JSON.stringify({ q: query + " hangi tıbbi bölüme gidilmeli?" }),
       });
       const data = await response.json();
-      
+
       if (data.organic && data.organic.length > 0) {
         const bestSnippet = data.organic[0].snippet;
         return {
@@ -201,7 +201,7 @@ export default function App() {
 
   const sendMessage = async () => {
     if (inputText.trim() === '') return;
-    
+
     const userMsgText = inputText;
     const newMessage = {
       id: Date.now(),
@@ -210,7 +210,7 @@ export default function App() {
       time: 'Just now',
       sender: 'YOU',
     };
-    
+
     setMessages(prev => [...prev, newMessage]);
     setInputText('');
 
@@ -219,7 +219,7 @@ export default function App() {
 
     // Call Serper Search
     const searchResult = await fetchSerperData(userMsgText);
-    
+
     const botResponse = {
       id: Date.now() + 1,
       text: searchResult.text,
@@ -260,7 +260,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerBtn}>
@@ -269,16 +269,16 @@ export default function App() {
         <Text style={styles.headerTitle}>BEGUM Health Agent</Text>
         <TouchableOpacity style={styles.profileBtn}>
           <View style={styles.profileCircle}>
-            <Image 
-              source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100' }} 
+            <Image
+              source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100' }}
               style={styles.profileImage}
             />
           </View>
         </TouchableOpacity>
       </View>
 
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.content}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
       >
@@ -340,8 +340,8 @@ export default function App() {
               onChangeText={setInputText}
               multiline
             />
-            <TouchableOpacity 
-              style={[styles.sendBtn, inputText.trim() === '' ? { opacity: 0.6 } : null]} 
+            <TouchableOpacity
+              style={[styles.sendBtn, inputText.trim() === '' ? { opacity: 0.6 } : null]}
               onPress={sendMessage}
             >
               <Ionicons name="send" size={20} color="white" />
@@ -362,7 +362,7 @@ export default function App() {
             <Text style={styles.navText}>RECORDS</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navItem}>
-             <Ionicons name="calendar-outline" size={22} color="#A0AEC0" />
+            <Ionicons name="calendar-outline" size={22} color="#A0AEC0" />
             <Text style={styles.navText}>CALENDAR</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navItem}>
@@ -595,6 +595,16 @@ const styles = StyleSheet.create({
     color: '#1E8E3E',
     fontWeight: '700',
   },
+  confirmationBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(30, 142, 62, 0.2)',
+  },
   confirmBtn: {
     backgroundColor: '#1E8E3E',
     paddingVertical: 12,
@@ -606,16 +616,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: '700',
     fontSize: 14,
-  },
-  confirmationBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E8F5E9',
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 8,
-    borderWidth: 1,
-    borderColor: 'rgba(30, 142, 62, 0.2)',
   },
   confirmationText: {
     fontSize: 12,

@@ -13,6 +13,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Colors based on the design screenshot
 const COLORS = {
@@ -65,7 +66,52 @@ export default function App() {
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const STORAGE_KEY = '@begum_chat_history';
   const SERPER_API_KEY = 'a1629159441ee795f821ce2fd96c99d084fcfb69';
+
+  // Load chat on mount
+  React.useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        const saved = await AsyncStorage.getItem(STORAGE_KEY);
+        if (saved !== null) {
+          setMessages(JSON.parse(saved));
+        }
+      } catch (e) {
+        console.error('Failed to load history', e);
+      }
+    };
+    loadHistory();
+  }, []);
+
+  // Save chat on change
+  React.useEffect(() => {
+    const saveHistory = async () => {
+      try {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+      } catch (e) {
+        console.error('Failed to save history', e);
+      }
+    };
+    if (messages.length > 0) saveHistory();
+  }, [messages]);
+
+  const clearHistory = async () => {
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      setMessages([
+        {
+          id: 1,
+          text: 'Merhaba! Ben B.E.G.U.M. (Biomedical Expert Generative User Mobile). Lütfen şikayetinizi yazın.',
+          type: 'bot',
+          time: 'Just now',
+          sender: 'BEGUM AI',
+        }
+      ]);
+    } catch (e) {
+      console.error('Failed to clear history', e);
+    }
+  };
 
 
   const [selectedSlots, setSelectedSlots] = useState({});
@@ -267,14 +313,20 @@ export default function App() {
           <Feather name="menu" size={24} color={COLORS.primary} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>BEGUM Health Agent</Text>
-        <TouchableOpacity style={styles.profileBtn}>
-          <View style={styles.profileCircle}>
-            <Image
-              source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100' }}
-              style={styles.profileImage}
-            />
-          </View>
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.clearBtn} onPress={clearHistory}>
+            <MaterialCommunityIcons name="delete-sweep-outline" size={20} color="#EF4444" />
+            <Text style={styles.clearBtnText}>Clear</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.profileBtn}>
+            <View style={styles.profileCircle}>
+              <Image
+                source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100' }}
+                style={styles.profileImage}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <KeyboardAvoidingView
@@ -391,9 +443,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '700',
     color: COLORS.primary,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  clearBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 12,
+    backgroundColor: '#FEF2F2',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  clearBtnText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#EF4444',
+    marginLeft: 2,
   },
   headerBtn: {
     padding: 4,

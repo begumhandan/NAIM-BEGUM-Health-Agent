@@ -8,8 +8,8 @@
 
 📊 Scoreboard
 - **Total Iterations:** 4
-- **Total Weight (kg):** 60
-- **Total Time (min):** 45
+- **Total Weight (kg):** 75
+- **Total Time (min):** 55
 - **Failed Attempts:** 1 (Stitch MCP Error)
 
 🔁 Iterations
@@ -32,7 +32,7 @@ Stitch MCP bağlantısında API anahtarı hatası (STITCH_API_KEY) alındı. Vak
 
 🏋️ Iteration 2
 - **Feature:** Serper API ile Dinamik Bölüm Yönlendirmesi & Yükleme Durumu
-- **Weight:** 15 kg
+- **Weight:** 20 kg
 - **Tool Used:** Antigravity + Serper.dev
 - **Time:** 10 min
 - **Attempts:** 1
@@ -44,7 +44,7 @@ Stitch MCP bağlantısında API anahtarı hatası (STITCH_API_KEY) alındı. Vak
 **What happened:**
 Kullanıcı girişini JSON listesine ekleyen ve ardından Serper API'den gelen snippet bilgisini bot yanıtı olarak render eden mantık kuruldu. Arayüz zümrüt yeşili temaya göre güncellendi ve "B.E.G.U.M. araştırıyor..." yükleme metni eklendi.
 
-**Commit:** [NAIM: BEGUM Chat] Dinamik Yönlendirme ve Mesajlaşma Mantığı - 15kg
+**Commit:** [NAIM: BEGUM Chat] Dinamik Yönlendirme ve Mesajlaşma Mantığı - 20kg
 
 🏋️ Iteration 3
 - **Feature:** İnteraktif Randevu Kartı & Doktor Seçimi
@@ -60,5 +60,20 @@ Kullanıcı girişini JSON listesine ekleyen ve ardından Serper API'den gelen s
 **What happened:**
 Bot yanıtının ardından otomatik olarak tetiklenen bir `appointment_card` bileşeni geliştirildi. Kullanıcılar kart üzerinden doktor ve saat dilimi seçebiliyor, ardından beliren "Randevuyu Onayla" butonuna bastıklarında anlık olarak yeşil bir onay mesajı alıyorlar.
 
-**Commit:** [NAIM: BEGUM Chat] İnteraktif Randevu Kartı ve Onay Sistemi - 15kg
+**Commit:** [NAIM: BEGUM Chat] İnteraktif Randevu Kartı ve Onay Sistemi - 20kg
 
+🏋️ Iteration 4
+- **Feature:** Local Storage / Mesaj Geçmişi Kalıcılığı
+- **Weight:** 20 kg
+- **Tool Used:** Antigravity + AsyncStorage
+- **Time:** 10 min
+- **Attempts:** 1
+- **Status:** ✅ Success
+
+**Prompt given to AI:**
+"B.E.G.U.M. Chat uygulamasındaki JSON tabanlı mesaj listesini (chat history) cihazın hafızasına kaydet. Uygulama açıldığında veriyi oku. Sağ üst köşeye 'Clear' butonu koy."
+
+**What happened:**
+`@react-native-async-storage/async-storage` kütüphanesi entegre edildi. `useEffect` kancaları kullanılarak uygulama her kapandığında mesaj dizisi yerel hafızaya kaydediliyor ve uygulama yeniden açıldığında otomatik olarak yükleniyor. Test süreçleri için sağ üst köşeye "Clear" (Geçmişi Temizle) butonu eklendi.
+
+**Commit:** [NAIM: BEGUM Chat] Local Storage ve Mesaj Kalıcılığı Entegrasyonu - 20kg

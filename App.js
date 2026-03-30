@@ -13,6 +13,7 @@ import {
   StatusBar,
   Linking,
   Modal,
+  ScrollView,
 } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -124,7 +125,9 @@ export default function App() {
   const STORAGE_KEY = '@begum_chat_history';
   const SERPER_API_KEY = 'a1629159441ee795f821ce2fd96c99d084fcfb69';
 
-  // Load chat on mount
+  /**
+   * PERSISTENCE (LOAD): Restores serialized message state from AsyncStorage upon initialization.
+   */
   React.useEffect(() => {
     const loadHistory = async () => {
       try {
@@ -139,7 +142,9 @@ export default function App() {
     loadHistory();
   }, []);
 
-  // Save chat on change
+  /**
+   * PERSISTENCE (SAVE): Automatically snapshots chat state to local storage whenever a change occurs.
+   */
   React.useEffect(() => {
     const saveHistory = async () => {
       try {
@@ -168,21 +173,7 @@ export default function App() {
     }
   };
 
-  const welcomeMessageTr = {
-    id: 1,
-    text: TRANSLATIONS.tr.welcome,
-    type: 'bot',
-    time: '09:40 AM',
-    sender: 'BEGUM AI',
-  };
-
-  const welcomeMessageEn = {
-    id: 1,
-    text: TRANSLATIONS.en.welcome,
-    type: 'bot',
-    time: '09:40 AM',
-    sender: 'BEGUM AI',
-  };
+  // --- REPLACED BY t('welcome') logic in clearHistory ---
 
 
   const [selectedSlots, setSelectedSlots] = useState({});
@@ -316,6 +307,10 @@ export default function App() {
     );
   };
 
+  /**
+   * Fetches medical analysis data from Serper.dev API based on user symptoms.
+   * Redirects the query to find the most relevant medical department.
+   */
   const fetchSerperData = async (query) => {
     try {
       const response = await fetch('https://google.serper.dev/search', {
@@ -345,6 +340,10 @@ export default function App() {
 
 
 
+  /**
+   * Handles user message submission, triggers AI analysis, 
+   * and generates a bot response with an interactive appointment card.
+   */
   const sendMessage = async () => {
     if (inputText.trim() === '') return;
 

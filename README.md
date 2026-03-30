@@ -51,11 +51,11 @@ Uygulama, **veri odaklı (data-driven) UI** prensibiyle çalışır. Mesajlaşma
 ---
 
 ## 📸 Ekran Görüntüleri
-*Mobil görünüm örneği (v1.1) ve Randevu Onay Sistemi (v1.2):*
+*Mobil görünüm örneği (v1.1), Randevu Onay Sistemi (v1.2) ve Hafıza Yönetimi (v1.3):*
 
-| Ana Ekran | Randevu Onay Testi |
-| :---: | :---: |
-| ![App Preview](./assets/mobile_preview.png) | ![Appointment Test](./assets/appointment_preview.png) |
+| Ana Ekran | Randevu Onay Testi | Geçmişi Temizleme (Clear) |
+| :---: | :---: | :---: |
+| ![App Preview](./assets/mobile_preview.png) | ![Appointment Test](./assets/appointment_preview.png) | ![Chat Reset](./assets/reset_preview.png) |
 
 ---
 

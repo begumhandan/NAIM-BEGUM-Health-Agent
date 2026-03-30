@@ -68,8 +68,67 @@ export default function App() {
   const SERPER_API_KEY = 'a1629159441ee795f821ce2fd96c99d084fcfb69';
 
 
+  const [confirmedAppointments, setConfirmedAppointments] = useState({});
+
+  const handleBookAppointment = (messageId, doctor, slot) => {
+    setConfirmedAppointments(prev => ({
+      ...prev,
+      [messageId]: { doctor, slot }
+    }));
+  };
+
   const renderMessage = ({ item }) => {
     const isBot = item.type === 'bot';
+    const isAppointment = item.type === 'appointment_card';
+
+    if (isAppointment) {
+      const confirmation = confirmedAppointments[item.id];
+      return (
+        <View style={[styles.messageContainer, styles.botContainer, { maxWidth: '90%' }]}>
+          <View style={styles.messageHeader}>
+            <Text style={styles.senderName}>{item.sender}</Text>
+            <Text style={styles.timestamp}>{item.time}</Text>
+          </View>
+          <View style={[styles.bubble, styles.appointmentCard]}>
+            <Text style={styles.cardTitle}>{item.department} Bölümü Randevu</Text>
+            <Text style={styles.cardSubtitle}>Uygun Uzmanlar ve Saatler:</Text>
+            
+            {item.doctors.map((doc, dIdx) => (
+              <View key={dIdx} style={styles.doctorSection}>
+                <Text style={styles.doctorName}>{doc}</Text>
+                <View style={styles.slotGrid}>
+                  {item.slots.map((slot, sIdx) => (
+                    <TouchableOpacity 
+                      key={sIdx} 
+                      style={[
+                        styles.slotBtn, 
+                        confirmation?.doctor === doc && confirmation?.slot === slot ? styles.slotBtnSelected : null
+                      ]}
+                      onPress={() => handleBookAppointment(item.id, doc, slot)}
+                    >
+                      <Text style={[
+                        styles.slotText,
+                        confirmation?.doctor === doc && confirmation?.slot === slot ? styles.slotTextSelected : null
+                      ]}>{slot}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            ))}
+
+            {confirmation && (
+              <View style={styles.confirmationBox}>
+                <Ionicons name="checkmark-circle" size={16} color="#1E8E3E" />
+                <Text style={styles.confirmationText}>
+                  Randevunuz onaylandı: {confirmation.doctor} - {confirmation.slot}
+                </Text>
+              </View>
+            )}
+          </View>
+        </View>
+      );
+    }
+
     return (
       <View style={[styles.messageContainer, isBot ? styles.botContainer : styles.userContainer]}>
         <View style={[styles.messageHeader, isBot ? null : { justifyContent: 'flex-end' }]}>
@@ -87,7 +146,6 @@ export default function App() {
             {item.text}
           </Text>
         </View>
-
       </View>
     );
   };
@@ -151,7 +209,18 @@ export default function App() {
       sender: 'BEGUM AI',
     };
 
-    setMessages(prev => [...prev, botResponse]);
+    const appointmentCard = {
+      id: Date.now() + 2,
+      type: 'appointment_card',
+      category: 'Randevu Planlama',
+      department: searchResult.category || 'Genel Sağlık',
+      doctors: ['Dr. Ali Yılmaz', 'Dr. Ayşe Kaya'],
+      slots: ['09:00', '10:30', '14:00'],
+      time: 'Just now',
+      sender: 'BEGUM AI',
+    };
+
+    setMessages(prev => [...prev, botResponse, appointmentCard]);
     setIsTyping(false);
   };
 
@@ -449,6 +518,78 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: COLORS.primary,
     textTransform: 'uppercase',
+  },
+  appointmentCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    padding: 16,
+    width: '100%',
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  cardSubtitle: {
+    fontSize: 12,
+    color: '#6B7280',
+    marginBottom: 12,
+  },
+  doctorSection: {
+    marginBottom: 12,
+  },
+  doctorName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: 6,
+  },
+  slotGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  slotBtn: {
+    backgroundColor: '#F3F4F6',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    minWidth: 60,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'transparent',
+  },
+  slotBtnSelected: {
+    backgroundColor: '#E8F5E9',
+    borderColor: '#1E8E3E',
+  },
+  slotText: {
+    fontSize: 13,
+    color: '#4B5563',
+    fontWeight: '500',
+  },
+  slotTextSelected: {
+    color: '#1E8E3E',
+    fontWeight: '700',
+  },
+  confirmationBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(30, 142, 62, 0.2)',
+  },
+  confirmationText: {
+    fontSize: 12,
+    color: '#1E8E3E',
+    fontWeight: '600',
+    marginLeft: 6,
   },
   inputSection: {
     paddingHorizontal: 16,

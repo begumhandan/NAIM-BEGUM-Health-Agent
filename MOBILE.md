@@ -7,9 +7,9 @@
 - **Starting Tool:** Google Stitch & Antigravity
 
 📊 Scoreboard
-- **Total Iterations:** 2
-- **Total Weight (kg):** 30
-- **Total Time (min):** 25
+- **Total Iterations:** 3
+- **Total Weight (kg):** 45
+- **Total Time (min):** 35
 - **Failed Attempts:** 1 (Stitch MCP Error)
 
 🔁 Iterations
@@ -45,3 +45,19 @@ Stitch MCP bağlantısında API anahtarı hatası (STITCH_API_KEY) alındı. Vak
 Kullanıcı girişini JSON listesine ekleyen ve ardından Serper API'den gelen snippet bilgisini bot yanıtı olarak render eden mantık kuruldu. Arayüz zümrüt yeşili temaya göre güncellendi ve "B.E.G.U.M. araştırıyor..." yükleme metni eklendi.
 
 **Commit:** [NAIM: BEGUM Chat] Dinamik Yönlendirme ve Mesajlaşma Mantığı - 15kg
+
+🏋️ Iteration 3
+- **Feature:** İnteraktif Randevu Kartı & Doktor Seçimi
+- **Weight:** 15 kg
+- **Tool Used:** Antigravity
+- **Time:** 10 min
+- **Attempts:** 1
+- **Status:** ✅ Success
+
+**Prompt given to AI:**
+"B.E.G.U.M. Chat'e interaktif bir randevu kartı özelliği ekle. Serper API bölüm önerisinden sonra bu kartı göster. Doktor ve saat seçimi yapılabilsin, seçilince onay mesajı çıksın."
+
+**What happened:**
+Bot yanıtının ardından otomatik olarak tetiklenen bir `appointment_card` bileşeni geliştirildi. Kullanıcılar kart üzerinden doktor ve saat dilimi seçebiliyor, seçim yapıldığında anlık olarak yeşil bir onay mesajı alıyorlar.
+
+**Commit:** [NAIM: BEGUM Chat] İnteraktif Randevu Kartı ve Onay Sistemi - 15kg

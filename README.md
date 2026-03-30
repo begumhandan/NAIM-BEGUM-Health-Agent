@@ -65,6 +65,10 @@ Uygulama, **veri odaklı (data-driven) UI** prensibiyle çalışır. Mesajlaşma
 | :---: | :---: | :---: |
 | ![Voice Input](./assets/voice_preview.png) | ![Map Preview](./assets/map_preview.png) | ![Multi-lang](./assets/lang_preview.png) |
 
+| Sağlık Geçmişi ve Veri Görselleştirme (v1.7) |
+| :---: |
+| ![History Preview](./assets/history_preview.png) |
+
 ---
 
 ## 📥 Kurulum (Running the App)

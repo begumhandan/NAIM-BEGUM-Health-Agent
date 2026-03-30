@@ -12,6 +12,7 @@ import {
   Image,
   StatusBar,
   Linking,
+  Modal,
 } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -46,6 +47,10 @@ const TRANSLATIONS = {
     confirmedMsg: 'Randevunuz onaylandı:',
     getDirections: 'Hastane Konumu / Yol Tarifi Al',
     searching: 'B.E.G.U.M. araştırıyor...',
+    historyTitle: 'Sağlık Geçmişi & Analiz',
+    noHistory: 'Henüz semptom kaydı bulunmuyor.',
+    mostFreq: 'En Sık Bildirilen Semptomlar',
+    close: 'Kapat',
   },
   en: {
     welcome: 'Hello! I am B.E.G.U.M. (Biomedical Expert Generative User Mobile). Please describe your symptoms.',
@@ -64,6 +69,10 @@ const TRANSLATIONS = {
     confirmedMsg: 'Appointment confirmed:',
     getDirections: 'Hospital Location / Get Directions',
     searching: 'B.E.G.U.M. searching...',
+    historyTitle: 'Health History & Analysis',
+    noHistory: 'No symptom records found yet.',
+    mostFreq: 'Most Reported Symptoms',
+    close: 'Close',
   }
 };
 
@@ -73,6 +82,7 @@ export default function App() {
   
   const [inputText, setInputText] = useState('');
   const [isListening, setIsListening] = useState(false);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -147,7 +157,7 @@ export default function App() {
       setMessages([
         {
           id: 1,
-          text: 'Merhaba! Ben B.E.G.U.M. (Biomedical Expert Generative User Mobile). Lütfen şikayetinizi yazın.',
+          text: t('welcome'),
           type: 'bot',
           time: 'Just now',
           sender: 'BEGUM AI',
@@ -368,8 +378,8 @@ export default function App() {
     const appointmentCard = {
       id: Date.now() + 2,
       type: 'appointment_card',
-      category: 'Randevu Planlama',
-      department: searchResult.category || 'Genel Sağlık',
+      category: lang === 'tr' ? 'Randevu Planlama' : 'Appointment Scheduling',
+      department: searchResult.category || (lang === 'tr' ? 'Genel Sağlık' : 'General Health'),
       doctors: ['Dr. Ali Yılmaz', 'Dr. Ayşe Kaya'],
       slots: ['09:00', '10:30', '14:00'],
       time: 'Just now',
@@ -405,6 +415,9 @@ export default function App() {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>BEGUM Health Agent</Text>
         <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.historyBtn} onPress={() => setIsHistoryVisible(true)}>
+            <MaterialCommunityIcons name="history" size={22} color={COLORS.primary} />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.clearBtn} onPress={clearHistory}>
             <MaterialCommunityIcons name="delete-sweep-outline" size={20} color="#EF4444" />
             <Text style={styles.clearBtnText}>{t('clear')}</Text>
@@ -468,6 +481,59 @@ export default function App() {
             )
           }
         />
+
+        {/* History Modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isHistoryVisible}
+          onRequestClose={() => setIsHistoryVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>{t('historyTitle')}</Text>
+                <TouchableOpacity onPress={() => setIsHistoryVisible(false)}>
+                  <Ionicons name="close" size={24} color="#333" />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView style={styles.modalScroll}>
+                {/* Simple Data Viz */}
+                <View style={styles.vizContainer}>
+                  <Text style={styles.vizLabel}>{t('mostFreq')}</Text>
+                  <View style={styles.vizBarRow}>
+                    <View style={[styles.vizBar, { width: '80%', backgroundColor: COLORS.primary }]} />
+                    <Text style={styles.vizBarText}>{lang === 'tr' ? 'Baş Ağrısı' : 'Headache'} (80%)</Text>
+                  </View>
+                  <View style={styles.vizBarRow}>
+                    <View style={[styles.vizBar, { width: '40%', backgroundColor: '#FB923C' }]} />
+                    <Text style={styles.vizBarText}>{lang === 'tr' ? 'Halsizlik' : 'Fatigue'} (40%)</Text>
+                  </View>
+                </View>
+
+                {/* Timeline */}
+                {messages.filter(m => m.type === 'user').reverse().map((m, i) => (
+                  <View key={i} style={styles.historyItem}>
+                    <View style={styles.historyDot} />
+                    <View style={styles.historyInfo}>
+                      <Text style={styles.historyTime}>{m.time}</Text>
+                      <Text style={styles.historyText}>{m.text}</Text>
+                    </View>
+                  </View>
+                ))}
+
+                {messages.filter(m => m.type === 'user').length === 0 && (
+                  <Text style={styles.noHistoryText}>{t('noHistory')}</Text>
+                )}
+              </ScrollView>
+
+              <TouchableOpacity style={styles.closeBtn} onPress={() => setIsHistoryVisible(false)}>
+                <Text style={styles.closeBtnText}>{t('close')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
 
 
         {/* Input Area */}
@@ -898,9 +964,107 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   navText: {
-    fontSize: 10,
-    fontWeight: '600',
     color: '#A0AEC0',
     marginTop: 4,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    height: '70%',
+    padding: 24,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#333',
+  },
+  vizContainer: {
+    backgroundColor: '#F8FAFC',
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 24,
+  },
+  vizLabel: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#64748B',
+    marginBottom: 12,
+  },
+  vizBarRow: {
+    marginBottom: 10,
+  },
+  vizBar: {
+    height: 8,
+    borderRadius: 4,
+    marginBottom: 4,
+  },
+  vizBarText: {
+    fontSize: 12,
+    color: '#475569',
+    fontWeight: '600',
+  },
+  historyItem: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  historyDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: COLORS.primary,
+    marginTop: 6,
+    marginRight: 12,
+  },
+  historyInfo: {
+    flex: 1,
+    borderLeftWidth: 1,
+    borderLeftColor: '#E2E8F0',
+    paddingLeft: 16,
+    marginLeft: -17,
+  },
+  historyTime: {
+    fontSize: 11,
+    color: '#9CA3AF',
+    marginBottom: 4,
+  },
+  historyText: {
+    fontSize: 14,
+    color: '#333',
+    fontWeight: '500',
+  },
+  closeBtn: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  closeBtnText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  historyBtn: {
+    backgroundColor: '#E8F5E9',
+    padding: 8,
+    borderRadius: 8,
+    marginRight: 10,
+  },
+  noHistoryText: {
+    textAlign: 'center',
+    color: '#9CA3AF',
+    marginTop: 40,
   },
 });

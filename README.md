@@ -30,8 +30,8 @@ NAIM Challenge kuralları çerçevesinde her geliştirme aşaması belirli bir "
 
 | İterasyon | Kilo (kg) | Amaç / Kazanım | Durum |
 | :--- | :---: | :--- | :---: |
-| v1.0 (MVP) | 10kg | Temel sohbet arayüzü ve Serper.dev API entegrasyonu. | ✅ Tamamlandı |
-| v1.1 | 15kg | Hassas kategorizasyon (Department Mapping) ve hata yakalama. | ✅ Tamamlandı |
+| v1.0 (MVP) | 15kg | Temel arayüz ve Serper.dev API entegrasyonu. | ✅ |
+| v1.1 | 15kg | Dinamik bölüm yönlendirmesi ve yükleme durumu. | ✅ |
 | v1.2 | 20kg | Biometrik veri izleme ve klinik protokol simülasyonu. | 🔄 Devam Ediyor |
 | v2.0 | 50kg | Tam kapsamlı yerel TFLite model entegrasyonu ve çevrimdışı analiz. | ⏳ Planlandı |
 

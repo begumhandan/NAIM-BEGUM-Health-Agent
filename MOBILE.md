@@ -7,9 +7,9 @@
 - **Starting Tool:** Google Stitch & Antigravity
 
 📊 Scoreboard
-- **Total Iterations:** 1
-- **Total Weight (kg):** 15
-- **Total Time (min):** 15
+- **Total Iterations:** 2
+- **Total Weight (kg):** 30
+- **Total Time (min):** 25
 - **Failed Attempts:** 1 (Stitch MCP Error)
 
 🔁 Iterations
@@ -29,3 +29,19 @@
 Stitch MCP bağlantısında API anahtarı hatası (STITCH_API_KEY) alındı. Vakit kaybetmemek için tasarımın ekran görüntüsü alınıp Antigravity'ye manuel yüklendi. İlk arayüz ve JSON render yapısı başarıyla kuruldu.
 
 **Commit:** [NAIM: BEGUM Chat] Başlangıç Arayüzü ve Serper Kurulumu Eklendi - 15kg
+
+🏋️ Iteration 2
+- **Feature:** Serper API ile Dinamik Bölüm Yönlendirmesi & Yükleme Durumu
+- **Weight:** 15 kg
+- **Tool Used:** Antigravity + Serper.dev
+- **Time:** 10 min
+- **Attempts:** 1
+- **Status:** ✅ Success
+
+**Prompt given to AI:**
+"B.E.G.U.M. Chat için mesajlaşma mantığını kur. Serper API'yi kullanarak '[Kullanıcı Şikayeti] hangi tıbbi bölüme gidilmeli?' sorgusu yap. Bot cevabı zümrüt yeşili baloncukta görünsün."
+
+**What happened:**
+Kullanıcı girişini JSON listesine ekleyen ve ardından Serper API'den gelen snippet bilgisini bot yanıtı olarak render eden mantık kuruldu. Arayüz zümrüt yeşili temaya göre güncellendi ve "B.E.G.U.M. araştırıyor..." yükleme metni eklendi.
+
+**Commit:** [NAIM: BEGUM Chat] Dinamik Yönlendirme ve Mesajlaşma Mantığı - 15kg

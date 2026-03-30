@@ -100,49 +100,15 @@ export default function App() {
           'X-API-KEY': SERPER_API_KEY,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ q: query + " belirtisi hangi bölüm bakıyor?" }),
+        body: JSON.stringify({ q: query + " hangi tıbbi bölüme gidilmeli?" }),
       });
       const data = await response.json();
       
       if (data.organic && data.organic.length > 0) {
-        // Find a snippet that actually mentions a department if possible
-        const results = data.organic.slice(0, 5);
-        let bestSnippet = results[0].snippet;
-        let category = 'Genel Sağlık';
-
-        // More robust categorization
-        const deptMap = {
-          'Dahiliye': ['dahiliye', 'iç hastalıkları', 'mide', 'karın'],
-          'Nöroloji': ['nöroloji', 'baş ağrısı', 'beyin', 'sinir'],
-          'Kardiyoloji': ['kardiyoloji', 'kalp', 'göğüs ağrısı'],
-          'Ortopedi': ['ortopedi', 'kemik', 'eklem', 'ayak', 'kol'],
-          'KBB': ['kbb', 'kulak', 'burun', 'boğaz'],
-          'Göz': ['göz', 'görme', 'optik'],
-          'Üroloji': ['üroloji', 'böbrek', 'idrar'],
-          'Cildiye': ['cildiye', 'deri', 'cilt', 'kaşıntı'],
-        };
-
-        for (const res of results) {
-          const lowerSnippet = res.snippet.toLowerCase();
-          for (const [dept, keywords] of Object.entries(deptMap)) {
-            if (keywords.some(kw => lowerSnippet.includes(kw))) {
-              category = dept;
-              bestSnippet = res.snippet; // Pick the snippet that matched a department
-              break;
-            }
-          }
-          if (category !== 'Genel Sağlık') break;
-        }
-
-        // Final cleanup of the snippet to make it more like a sentence
-        let cleanText = bestSnippet.split('...')[0].trim();
-        if (cleanText.length < 50 && bestSnippet.includes('...')) {
-           cleanText = bestSnippet.replace(/\.\.\./g, ' ');
-        }
-
+        const bestSnippet = data.organic[0].snippet;
         return {
-          text: `Şikayetinizi analiz ettim. Belirttiğiniz durum genellikle ${category} bölümünün uzmanlık alanına girmektedir. Özetle: ${cleanText}`,
-          category: category
+          text: bestSnippet,
+          category: 'Analiz Sonucu'
         };
       }
       return { text: "Üzgünüm, bu konuda net bir tıbbi veriye şu an ulaşamadım. Lütfen bir uzmana danışın.", category: "Hata" };
@@ -151,6 +117,7 @@ export default function App() {
       return { text: "Bağlantı sorunu nedeniyle veriye ulaşamadım.", category: "Hata" };
     }
   };
+
 
 
 
@@ -262,8 +229,8 @@ export default function App() {
                 <View style={styles.messageHeader}>
                   <Text style={styles.senderName}>BEGUM AI</Text>
                 </View>
-                <View style={[styles.bubble, styles.botBubble, { width: 60, alignItems: 'center' }]}>
-                  <Text style={{ color: '#9CA3AF' }}>...</Text>
+                <View style={[styles.bubble, styles.botBubble, { paddingHorizontal: 12, paddingVertical: 8 }]}>
+                  <Text style={{ color: '#FFFFFF', fontWeight: '600' }}>B.E.G.U.M. araştırıyor...</Text>
                 </View>
               </View>
             )
@@ -446,14 +413,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   botBubble: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1E8E3E', // Emerald Green as requested
     borderTopRightRadius: 16,
     borderBottomRightRadius: 16,
     borderBottomLeftRadius: 16,
     borderTopLeftRadius: 0,
   },
   userBubble: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: '#F3F4F6', // Light gray for user
     borderTopLeftRadius: 16,
     borderBottomLeftRadius: 16,
     borderTopRightRadius: 16,
@@ -464,10 +431,10 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   botText: {
-    color: '#4B5563',
+    color: '#FFFFFF',
   },
   userText: {
-    color: '#FFFFFF',
+    color: '#374151',
   },
   categoryBadge: {
     backgroundColor: 'rgba(30, 142, 62, 0.1)',

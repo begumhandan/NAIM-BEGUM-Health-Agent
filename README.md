@@ -36,6 +36,7 @@ NAIM Challenge kuralları çerçevesinde her geliştirme aşaması belirli bir "
 | v1.3 | 20kg | Yerel Hafıza (Local Storage) ve mesaj geçmişi kalıcılığı. | ✅ |
 | v1.4 | 15kg | Sesli Girdi (Voice Input) simülasyonu ve UI geri bildirimi. | ✅ |
 | v1.5 | 20kg | Hastane Konumu ve Harita (Google Maps) entegrasyonu. | ✅ |
+| v1.6 | 25kg | Çoklu Dil (TR/EN) desteği ve anlık çeviri sistemi. | ✅ |
 | v2.0 | 50kg | Tam kapsamlı yerel TFLite model entegrasyonu ve çevrimdışı analiz. | ⏳ Planlandı |
 
 ---

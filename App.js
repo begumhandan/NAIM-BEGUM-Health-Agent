@@ -25,9 +25,52 @@ const COLORS = {
   textSecondary: '#666666',
   background: '#F9FAFB',
   gridLine: '#E5E7EB',
+  gridLineColor: 'rgba(0,0,0,0.05)',
+};
+
+const TRANSLATIONS = {
+  tr: {
+    welcome: 'Merhaba! Ben B.E.G.U.M. (Biomedical Expert Generative User Mobile). Lütfen şikayetinizi yazın.',
+    protocolActive: 'Klinik Protokol Aktif',
+    protocolDesc: 'Verileriniz şifrelenmiştir. Şu anda bildirdiğiniz semptomları biyometrik kayıtlarınızla birlikte izliyorum.',
+    placeholder: 'Semptomlarınızı açıklayın...',
+    listening: 'Dinleniyor...',
+    clear: 'Temizle',
+    chat: 'SOHBET',
+    records: 'KAYITLAR',
+    calendar: 'TAKVİM',
+    settings: 'AYARLAR',
+    appointmentTitle: 'Bölümü Randevu',
+    doctorsTitle: 'Uygun Uzmanlar ve Saatler:',
+    confirmAppointment: 'Randevuyu Onayla',
+    confirmedMsg: 'Randevunuz onaylandı:',
+    getDirections: 'Hastane Konumu / Yol Tarifi Al',
+    searching: 'B.E.G.U.M. araştırıyor...',
+  },
+  en: {
+    welcome: 'Hello! I am B.E.G.U.M. (Biomedical Expert Generative User Mobile). Please describe your symptoms.',
+    protocolActive: 'Clinical Protocol Active',
+    protocolDesc: 'Your data is encrypted. I am currently monitoring your symptoms in context with your biometric records.',
+    placeholder: 'Describe your symptoms...',
+    listening: 'Listening...',
+    clear: 'Clear',
+    chat: 'CHAT',
+    records: 'RECORDS',
+    calendar: 'CALENDAR',
+    settings: 'SETTINGS',
+    appointmentTitle: 'Department Appointment',
+    doctorsTitle: 'Available Specialists & Slots:',
+    confirmAppointment: 'Confirm Appointment',
+    confirmedMsg: 'Appointment confirmed:',
+    getDirections: 'Hospital Location / Get Directions',
+    searching: 'B.E.G.U.M. searching...',
+  }
 };
 
 export default function App() {
+  const [lang, setLang] = useState('tr');
+  const t = (key) => TRANSLATIONS[lang][key];
+  
   const [inputText, setInputText] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [messages, setMessages] = useState([
@@ -115,6 +158,22 @@ export default function App() {
     }
   };
 
+  const welcomeMessageTr = {
+    id: 1,
+    text: TRANSLATIONS.tr.welcome,
+    type: 'bot',
+    time: '09:40 AM',
+    sender: 'BEGUM AI',
+  };
+
+  const welcomeMessageEn = {
+    id: 1,
+    text: TRANSLATIONS.en.welcome,
+    type: 'bot',
+    time: '09:40 AM',
+    sender: 'BEGUM AI',
+  };
+
 
   const [selectedSlots, setSelectedSlots] = useState({});
   const [confirmedAppointments, setConfirmedAppointments] = useState({});
@@ -168,8 +227,8 @@ export default function App() {
             <Text style={styles.timestamp}>{item.time}</Text>
           </View>
           <View style={[styles.bubble, styles.appointmentCard]}>
-            <Text style={styles.cardTitle}>{item.department} Bölümü Randevu</Text>
-            <Text style={styles.cardSubtitle}>Uygun Uzmanlar ve Saatler:</Text>
+            <Text style={styles.cardTitle}>{item.department} {t('appointmentTitle')}</Text>
+            <Text style={styles.cardSubtitle}>{t('doctorsTitle')}</Text>
 
             {item.doctors.map((doc, dIdx) => (
               <View key={dIdx} style={styles.doctorSection}>
@@ -199,7 +258,7 @@ export default function App() {
                 style={styles.confirmBtn} 
                 onPress={() => handleConfirmAppointment(item.id)}
               >
-                <Text style={styles.confirmBtnText}>Randevuyu Onayla</Text>
+                <Text style={styles.confirmBtnText}>{t('confirmAppointment')}</Text>
               </TouchableOpacity>
             )}
 
@@ -208,7 +267,7 @@ export default function App() {
                 <View style={styles.confirmationBox}>
                   <Ionicons name="checkmark-circle" size={16} color="#1E8E3E" />
                   <Text style={styles.confirmationText}>
-                    Randevunuz onaylandı: {confirmation.doctor} - {confirmation.slot}
+                    {t('confirmedMsg')} {confirmation.doctor} - {confirmation.slot}
                   </Text>
                 </View>
                 
@@ -217,7 +276,7 @@ export default function App() {
                   onPress={() => handleOpenMaps(item.department)}
                 >
                   <MaterialCommunityIcons name="map-marker-path" size={18} color="#1E8E3E" />
-                  <Text style={styles.mapBtnText}>Hastane Konumu / Yol Tarifi Al</Text>
+                  <Text style={styles.mapBtnText}>{t('getDirections')}</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -340,14 +399,15 @@ export default function App() {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.headerBtn}>
-          <Feather name="menu" size={24} color={COLORS.primary} />
+        <TouchableOpacity style={styles.langBtn} onPress={() => setLang(lang === 'tr' ? 'en' : 'tr')}>
+          <Ionicons name="globe-outline" size={18} color={COLORS.primary} />
+          <Text style={styles.langBtnText}>{lang === 'tr' ? 'EN' : 'TR'}</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>BEGUM Health Agent</Text>
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.clearBtn} onPress={clearHistory}>
             <MaterialCommunityIcons name="delete-sweep-outline" size={20} color="#EF4444" />
-            <Text style={styles.clearBtnText}>Clear</Text>
+            <Text style={styles.clearBtnText}>{t('clear')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.profileBtn}>
             <View style={styles.profileCircle}>
@@ -388,9 +448,9 @@ export default function App() {
                 <Ionicons name="shield-checkmark" size={20} color={COLORS.primary} />
               </View>
               <View style={styles.protocolTextContainer}>
-                <Text style={styles.protocolTitle}>Clinical Protocol Active</Text>
+                <Text style={styles.protocolTitle}>{t('protocolActive')}</Text>
                 <Text style={styles.protocolDesc}>
-                  Your data is encrypted. I am currently monitoring your reported fatigue levels in context with your recent biometric records.
+                  {t('protocolDesc')}
                 </Text>
               </View>
             </View>
@@ -402,7 +462,7 @@ export default function App() {
                   <Text style={styles.senderName}>BEGUM AI</Text>
                 </View>
                 <View style={[styles.bubble, styles.botBubble, { paddingHorizontal: 12, paddingVertical: 8 }]}>
-                  <Text style={{ color: '#FFFFFF', fontWeight: '600' }}>B.E.G.U.M. araştırıyor...</Text>
+                  <Text style={{ color: '#FFFFFF', fontWeight: '600' }}>{t('searching')}</Text>
                 </View>
               </View>
             )
@@ -425,7 +485,7 @@ export default function App() {
             </TouchableOpacity>
             <TextInput
               style={styles.input}
-              placeholder={isListening ? "Dinleniyor..." : "Describe your symptoms..."}
+              placeholder={isListening ? t('listening') : t('placeholder')}
               placeholderTextColor={isListening ? COLORS.primary : "#A0AEC0"}
               value={inputText}
               onChangeText={setInputText}
@@ -445,20 +505,20 @@ export default function App() {
           <TouchableOpacity style={styles.navItem}>
             <View style={styles.activeNavBg}>
               <Ionicons name="chatbubble-ellipses" size={22} color={COLORS.primary} />
-              <Text style={styles.activeNavText}>CHAT</Text>
+              <Text style={styles.activeNavText}>{t('chat')}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navItem}>
             <MaterialCommunityIcons name="file-document-outline" size={24} color="#A0AEC0" />
-            <Text style={styles.navText}>RECORDS</Text>
+            <Text style={styles.navText}>{t('records')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navItem}>
             <Ionicons name="calendar-outline" size={22} color="#A0AEC0" />
-            <Text style={styles.navText}>CALENDAR</Text>
+            <Text style={styles.navText}>{t('calendar')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.navItem}>
             <Ionicons name="settings-outline" size={22} color="#A0AEC0" />
-            <Text style={styles.navText}>SETTINGS</Text>
+            <Text style={styles.navText}>{t('settings')}</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -482,9 +542,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   headerTitle: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 15,
+    fontWeight: '800',
     color: COLORS.primary,
+    flex: 1,
+    textAlign: 'center',
+  },
+  langBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#E8F5E9',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  langBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: COLORS.primary,
+    marginLeft: 4,
   },
   headerRight: {
     flexDirection: 'row',

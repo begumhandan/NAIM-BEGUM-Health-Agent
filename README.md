@@ -63,6 +63,10 @@ Uygulama, **veri odaklı (data-driven) UI** prensibiyle çalışır. Mesajlaşma
 | :---: | :---: |
 | ![Chat Reset](./assets/reset_preview.png) | ![Voice Input](./assets/voice_preview.png) |
 
+| Harita ve Yol Tarifi (v1.5) |
+| :---: |
+| ![Map Preview](./assets/map_preview.png) |
+
 ---
 
 ## 📥 Kurulum (Running the App)

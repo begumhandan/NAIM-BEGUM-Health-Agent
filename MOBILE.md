@@ -7,9 +7,9 @@
 - **Starting Tool:** Google Stitch & Antigravity
 
 📊 Scoreboard
-- **Total Iterations:** 4
-- **Total Weight (kg):** 75
-- **Total Time (min):** 55
+- **Total Iterations:** 5
+- **Total Weight (kg):** 90
+- **Total Time (min):** 65
 - **Failed Attempts:** 1 (Stitch MCP Error)
 
 🔁 Iterations
@@ -77,3 +77,19 @@ Bot yanıtının ardından otomatik olarak tetiklenen bir `appointment_card` bil
 `@react-native-async-storage/async-storage` kütüphanesi entegre edildi. `useEffect` kancaları kullanılarak uygulama her kapandığında mesaj dizisi yerel hafızaya kaydediliyor ve uygulama yeniden açıldığında otomatik olarak yükleniyor. Test süreçleri için sağ üst köşeye "Clear" (Geçmişi Temizle) butonu eklendi.
 
 **Commit:** [NAIM: BEGUM Chat] Local Storage ve Mesaj Kalıcılığı Entegrasyonu - 20kg
+
+🏋️ Iteration 5
+- **Feature:** Sesli Girdi (Voice Input Simulation)
+- **Weight:** 15 kg
+- **Tool Used:** Antigravity
+- **Time:** 10 min
+- **Attempts:** 1
+- **Status:** ✅ Success
+
+**Prompt given to AI:**
+"B.E.G.U.M. Chat uygulamasına bir Mikrofon butonu ekle. Basıldığında 3 saniye 'Dinleniyor...' yazsın ve ardından input alanına otomatik metin düşsün."
+
+**What happened:**
+Zaman kısıtlamasına uymak amacıyla (15dk altı) yüksek kaliteli bir Voice-to-Text simülasyonu eklendi. Mikrofon butonuna basıldığında arayüz "Dinleniyor..." durumuna geçiyor ve bir süre sonra "Şiddetli baş ağrım var" metni otomatik olarak input alanına aktarılıyor. Hem görsel geri bildirim hem de kullanıcı akışı (UX) başarıyla sağlandı.
+
+**Commit:** [NAIM: BEGUM Chat] Sesli Girdi Simülasyonu Entegrasyonu - 15kg

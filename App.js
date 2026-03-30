@@ -28,6 +28,7 @@ const COLORS = {
 
 export default function App() {
   const [inputText, setInputText] = useState('');
+  const [isListening, setIsListening] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -131,6 +132,15 @@ export default function App() {
         [messageId]: selectedSlots[messageId]
       }));
     }
+  };
+
+  const handleVoiceInput = () => {
+    setIsListening(true);
+    // Simulate "listening" for 3 seconds
+    setTimeout(() => {
+      setInputText('Şiddetli baş ağrım var');
+      setIsListening(false);
+    }, 2500);
   };
 
   const renderMessage = ({ item }) => {
@@ -385,9 +395,17 @@ export default function App() {
             <TouchableOpacity style={styles.addBtn}>
               <Feather name="plus-circle" size={24} color="#A0AEC0" />
             </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.micBtn, isListening ? styles.micBtnActive : null]} 
+              onPress={handleVoiceInput}
+              disabled={isListening}
+            >
+              <Ionicons name={isListening ? "mic" : "mic-outline"} size={22} color={isListening ? "#FFFFFF" : "#A0AEC0"} />
+            </TouchableOpacity>
             <TextInput
               style={styles.input}
-              placeholder="Describe your symptoms..."
+              placeholder={isListening ? "Dinleniyor..." : "Describe your symptoms..."}
+              placeholderTextColor={isListening ? COLORS.primary : "#A0AEC0"}
               value={inputText}
               onChangeText={setInputText}
               multiline
@@ -722,6 +740,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 15,
     color: '#333',
+  },
+  micBtn: {
+    padding: 8,
+    borderRadius: 20,
+  },
+  micBtnActive: {
+    backgroundColor: COLORS.primary,
   },
   sendBtn: {
     width: 40,

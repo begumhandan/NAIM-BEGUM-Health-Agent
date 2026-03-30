@@ -56,17 +56,13 @@ Uygulama, **veri odaklı (data-driven) UI** prensibiyle çalışır. Mesajlaşma
 ## 📸 Ekran Görüntüleri
 *Projenin ana yetenekleri ve test aşamaları:*
 
-| Ana Ekran (v1.1) | Randevu Onay Sistemi (v1.2) |
-| :---: | :---: |
-| ![App Preview](./assets/mobile_preview.png) | ![Appointment Test](./assets/appointment_preview.png) |
+| Ana Ekran (v1.1) | Randevu Sistemi (v1.2) | Hafıza / Clear (v1.3) |
+| :---: | :---: | :---: |
+| ![App Preview](./assets/mobile_preview.png) | ![Appointment Test](./assets/appointment_preview.png) | ![Chat Reset](./assets/reset_preview.png) |
 
-| Hafıza Yönetimi / Clear (v1.3) | Sesli Girdi / Voice (v1.4) |
-| :---: | :---: |
-| ![Chat Reset](./assets/reset_preview.png) | ![Voice Input](./assets/voice_preview.png) |
-
-| Harita ve Yol Tarifi (v1.5) |
-| :---: |
-| ![Map Preview](./assets/map_preview.png) |
+| Sesli Girdi (v1.4) | Harita / Yol Tarifi (v1.5) | Çoklu Dil / EN (v1.6) |
+| :---: | :---: | :---: |
+| ![Voice Input](./assets/voice_preview.png) | ![Map Preview](./assets/map_preview.png) | ![Multi-lang](./assets/lang_preview.png) |
 
 ---
 

@@ -68,13 +68,23 @@ export default function App() {
   const SERPER_API_KEY = 'a1629159441ee795f821ce2fd96c99d084fcfb69';
 
 
+  const [selectedSlots, setSelectedSlots] = useState({});
   const [confirmedAppointments, setConfirmedAppointments] = useState({});
 
-  const handleBookAppointment = (messageId, doctor, slot) => {
-    setConfirmedAppointments(prev => ({
+  const handleSelectSlot = (messageId, doctor, slot) => {
+    setSelectedSlots(prev => ({
       ...prev,
       [messageId]: { doctor, slot }
     }));
+  };
+
+  const handleConfirmAppointment = (messageId) => {
+    if (selectedSlots[messageId]) {
+      setConfirmedAppointments(prev => ({
+        ...prev,
+        [messageId]: selectedSlots[messageId]
+      }));
+    }
   };
 
   const renderMessage = ({ item }) => {
@@ -82,6 +92,7 @@ export default function App() {
     const isAppointment = item.type === 'appointment_card';
 
     if (isAppointment) {
+      const selection = selectedSlots[item.id];
       const confirmation = confirmedAppointments[item.id];
       return (
         <View style={[styles.messageContainer, styles.botContainer, { maxWidth: '90%' }]}>
@@ -102,19 +113,28 @@ export default function App() {
                       key={sIdx} 
                       style={[
                         styles.slotBtn, 
-                        confirmation?.doctor === doc && confirmation?.slot === slot ? styles.slotBtnSelected : null
+                        selection?.doctor === doc && selection?.slot === slot ? styles.slotBtnSelected : null
                       ]}
-                      onPress={() => handleBookAppointment(item.id, doc, slot)}
+                      onPress={() => handleSelectSlot(item.id, doc, slot)}
                     >
                       <Text style={[
                         styles.slotText,
-                        confirmation?.doctor === doc && confirmation?.slot === slot ? styles.slotTextSelected : null
+                        selection?.doctor === doc && selection?.slot === slot ? styles.slotTextSelected : null
                       ]}>{slot}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
               </View>
             ))}
+
+            {!confirmation && selection && (
+              <TouchableOpacity 
+                style={styles.confirmBtn} 
+                onPress={() => handleConfirmAppointment(item.id)}
+              >
+                <Text style={styles.confirmBtnText}>Randevuyu Onayla</Text>
+              </TouchableOpacity>
+            )}
 
             {confirmation && (
               <View style={styles.confirmationBox}>
@@ -574,6 +594,18 @@ const styles = StyleSheet.create({
   slotTextSelected: {
     color: '#1E8E3E',
     fontWeight: '700',
+  },
+  confirmBtn: {
+    backgroundColor: '#1E8E3E',
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  confirmBtnText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 14,
   },
   confirmationBox: {
     flexDirection: 'row',

@@ -7,9 +7,9 @@
 - **Starting Tool:** Google Stitch & Antigravity
 
 📊 Scoreboard
-- **Total Iterations:** 5
-- **Total Weight (kg):** 90
-- **Total Time (min):** 65
+- **Total Iterations:** 6
+- **Total Weight (kg):** 110
+- **Total Time (min):** 75
 - **Failed Attempts:** 1 (Stitch MCP Error)
 
 🔁 Iterations
@@ -93,3 +93,19 @@ Bot yanıtının ardından otomatik olarak tetiklenen bir `appointment_card` bil
 Zaman kısıtlamasına uymak amacıyla (15dk altı) yüksek kaliteli bir Voice-to-Text simülasyonu eklendi. Mikrofon butonuna basıldığında arayüz "Dinleniyor..." durumuna geçiyor ve bir süre sonra "Şiddetli baş ağrım var" metni otomatik olarak input alanına aktarılıyor. Hem görsel geri bildirim hem de kullanıcı akışı (UX) başarıyla sağlandı.
 
 **Commit:** [NAIM: BEGUM Chat] Sesli Girdi Simülasyonu Entegrasyonu - 15kg
+
+🏋️ Iteration 6
+- **Feature:** Hastane Konumu / Harita Entegrasyonu
+- **Weight:** 20 kg
+- **Tool Used:** Antigravity + Linking
+- **Time:** 10 min
+- **Attempts:** 1
+- **Status:** ✅ Success
+
+**Prompt given to AI:**
+"Randevu onaylandıktan sonra bir 'Hastane Konumu / Yol Tarifi Al' butonu göster. Basıldığında Google Maps/Apple Maps üzerinden en yakın hastaneyi arasın."
+
+**What happened:**
+`Linking` API'si kullanılarak dış bağlantı mantığı kuruldu. Randevu onaylandıktan sonra aktif olan yeni buton, önerilen tıbbi bölüme göre en yakın hastane aramasını cihazın yerleşik harita uygulamasında başlatıyor. Bu özellik projenin gerçek dünya entegrasyonunu güçlendirdi.
+
+**Commit:** [NAIM: BEGUM Chat] Harita ve Yol Tarifi Entegrasyonu - 20kg

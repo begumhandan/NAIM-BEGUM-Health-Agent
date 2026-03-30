@@ -11,6 +11,7 @@ import {
   Platform,
   Image,
   StatusBar,
+  Linking,
 } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -143,6 +144,16 @@ export default function App() {
     }, 2500);
   };
 
+  const handleOpenMaps = (department) => {
+    const query = encodeURIComponent(`${department} hastanesi en yakın`);
+    const url = Platform.select({
+      ios: `maps:0,0?q=${query}`,
+      android: `geo:0,0?q=${query}`,
+      web: `https://www.google.com/maps/search/${query}`
+    });
+    Linking.openURL(url);
+  };
+
   const renderMessage = ({ item }) => {
     const isBot = item.type === 'bot';
     const isAppointment = item.type === 'appointment_card';
@@ -193,11 +204,21 @@ export default function App() {
             )}
 
             {confirmation && (
-              <View style={styles.confirmationBox}>
-                <Ionicons name="checkmark-circle" size={16} color="#1E8E3E" />
-                <Text style={styles.confirmationText}>
-                  Randevunuz onaylandı: {confirmation.doctor} - {confirmation.slot}
-                </Text>
+              <View>
+                <View style={styles.confirmationBox}>
+                  <Ionicons name="checkmark-circle" size={16} color="#1E8E3E" />
+                  <Text style={styles.confirmationText}>
+                    Randevunuz onaylandı: {confirmation.doctor} - {confirmation.slot}
+                  </Text>
+                </View>
+                
+                <TouchableOpacity 
+                  style={styles.mapBtn} 
+                  onPress={() => handleOpenMaps(item.department)}
+                >
+                  <MaterialCommunityIcons name="map-marker-path" size={18} color="#1E8E3E" />
+                  <Text style={styles.mapBtnText}>Hastane Konumu / Yol Tarifi Al</Text>
+                </TouchableOpacity>
               </View>
             )}
           </View>
@@ -710,6 +731,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#1E8E3E',
     fontWeight: '600',
+    marginLeft: 6,
+  },
+  mapBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#1E8E3E',
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginTop: 8,
+  },
+  mapBtnText: {
+    fontSize: 12,
+    color: '#1E8E3E',
+    fontWeight: '700',
     marginLeft: 6,
   },
   inputSection: {

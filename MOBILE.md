@@ -7,9 +7,9 @@
 - **Starting Tool:** Google Stitch & Antigravity
 
 📊 Scoreboard
-- **Total Iterations:** 3
-- **Total Weight (kg):** 45
-- **Total Time (min):** 35
+- **Total Iterations:** 4
+- **Total Weight (kg):** 60
+- **Total Time (min):** 45
 - **Failed Attempts:** 1 (Stitch MCP Error)
 
 🔁 Iterations
@@ -47,8 +47,8 @@ Kullanıcı girişini JSON listesine ekleyen ve ardından Serper API'den gelen s
 **Commit:** [NAIM: BEGUM Chat] Dinamik Yönlendirme ve Mesajlaşma Mantığı - 15kg
 
 🏋️ Iteration 3
-- **Feature:** İnteraktif Randevu Kartı & Onay Butonu Sistemi
-- **Weight:** 15 kg
+- **Feature:** İnteraktif Randevu Kartı & Doktor Seçimi
+- **Weight:** 20 kg
 - **Tool Used:** Antigravity
 - **Time:** 10 min
 - **Attempts:** 1
@@ -60,4 +60,5 @@ Kullanıcı girişini JSON listesine ekleyen ve ardından Serper API'den gelen s
 **What happened:**
 Bot yanıtının ardından otomatik olarak tetiklenen bir `appointment_card` bileşeni geliştirildi. Kullanıcılar kart üzerinden doktor ve saat dilimi seçebiliyor, ardından beliren "Randevuyu Onayla" butonuna bastıklarında anlık olarak yeşil bir onay mesajı alıyorlar.
 
-**Commit:** [NAIM: BEGUM Chat] İnteraktif Randevu Kartı ve Butonlu Onay Sistemi - 15kg
+**Commit:** [NAIM: BEGUM Chat] İnteraktif Randevu Kartı ve Onay Sistemi - 15kg
+
